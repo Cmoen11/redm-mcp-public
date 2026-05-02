@@ -34,19 +34,14 @@ The server advertises its own usage via MCP `instructions` — no skill or extra
 | `browse` | List document paths under a category/namespace. |
 | `get_document` | Fetch full markdown for a doc path. |
 
-## Access
-
-The endpoint requires `Authorization: Bearer <token>`. Request a token by [opening an issue](../../issues/new) or contacting the owner directly.
-
 ## Client setup
 
-All clients connect to `https://redm-mcp.fivem.no/mcp` with a Bearer token (`ACCESS_TOKEN`).
+All clients connect to `https://redm-mcp.fivem.no/mcp`. No authentication required.
 
 ### Claude Code
 
 ```bash
-claude mcp add --transport http redm-mcp https://redm-mcp.fivem.no/mcp \
-  --header "Authorization: Bearer $ACCESS_TOKEN"
+claude mcp add --transport http redm-mcp https://redm-mcp.fivem.no/mcp
 ```
 
 Or edit `~/.claude.json` manually:
@@ -56,10 +51,7 @@ Or edit `~/.claude.json` manually:
   "mcpServers": {
     "redm-mcp": {
       "type": "http",
-      "url": "https://redm-mcp.fivem.no/mcp",
-      "headers": {
-        "Authorization": "Bearer YOUR_TOKEN"
-      }
+      "url": "https://redm-mcp.fivem.no/mcp"
     }
   }
 }
@@ -73,10 +65,7 @@ Edit `~/.cursor/mcp.json` (or `.cursor/mcp.json` in a project root):
 {
   "mcpServers": {
     "redm-mcp": {
-      "url": "https://redm-mcp.fivem.no/mcp",
-      "headers": {
-        "Authorization": "Bearer YOUR_TOKEN"
-      }
+      "url": "https://redm-mcp.fivem.no/mcp"
     }
   }
 }
@@ -96,9 +85,7 @@ Claude Desktop doesn't support HTTP MCP directly — use `mcp-remote` as a proxy
       "args": [
         "-y",
         "mcp-remote",
-        "https://redm-mcp.fivem.no/mcp",
-        "--header",
-        "Authorization: Bearer YOUR_TOKEN"
+        "https://redm-mcp.fivem.no/mcp"
       ]
     }
   }
@@ -116,10 +103,7 @@ Restart Claude Desktop.
   "servers": {
     "redm-mcp": {
       "type": "http",
-      "url": "https://redm-mcp.fivem.no/mcp",
-      "headers": {
-        "Authorization": "Bearer YOUR_TOKEN"
-      }
+      "url": "https://redm-mcp.fivem.no/mcp"
     }
   }
 }
@@ -138,9 +122,7 @@ Restart Claude Desktop.
         "args": [
           "-y",
           "mcp-remote",
-          "https://redm-mcp.fivem.no/mcp",
-          "--header",
-          "Authorization: Bearer YOUR_TOKEN"
+          "https://redm-mcp.fivem.no/mcp"
         ]
       }
     }
@@ -150,7 +132,7 @@ Restart Claude Desktop.
 
 ### Other clients (generic)
 
-- HTTP transport clients: point to `https://redm-mcp.fivem.no/mcp` with `Authorization: Bearer <token>`
+- HTTP transport clients: point to `https://redm-mcp.fivem.no/mcp`
 - stdio-only clients: use [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) as a proxy
 
 ## Verify it works
@@ -163,7 +145,7 @@ Restart Claude Desktop.
 
 | Path | Auth | Purpose |
 |------|------|---------|
-| `POST /mcp` | Bearer | MCP protocol |
+| `POST /mcp` | no | MCP protocol |
 | `GET /health` | no | Liveness |
 | `GET /ingest-status` | no | `{ current, last, ingestedAt, upToDate }` |
 | `GET /stats` | no | Usage stats (tool counters, durations, breakdowns). Metadata only — no queries or secrets stored. |
