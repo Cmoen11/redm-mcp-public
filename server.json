@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.cmoen11/redm-mcp",
+  "title": "redm-mcp",
+  "description": "RedM / RDR3 / FiveM docs MCP server: native lookups, semantic search, VORP, RSGCore, oxmysql.",
+  "version": "0.1.0",
+  "websiteUrl": "https://redm-mcp.fivem.no/dashboard",
+  "repository": {
+    "url": "https://github.com/Cmoen11/redm-mcp-public",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://redm-mcp.fivem.no/mcp"
+    }
+  ]
+}
