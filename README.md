@@ -158,6 +158,4 @@ Bug, missing docs, incorrect native lookups, requests for new tools? [Open an is
 ## Doc sources
 
 Indexed upstreams:
-
-- [iamvillain/sj-redm-mcp](https://github.com/iamvillain/sj-redm-mcp) — natives, VORP, RSGCore, oxmysql
 - [femga/rdr3_discoveries](https://github.com/femga/rdr3_discoveries) — community ped/weapon/anim/prop hashes, AI flags, enums
