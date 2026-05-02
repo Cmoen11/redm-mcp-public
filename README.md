@@ -1,8 +1,12 @@
-# redm-mcp
+# redm-mcp — RedM / RDR3 docs MCP server
 
-MCP server for RedM/RDR3 documentation. Gives AI agents (Claude Code, Cursor, Claude Desktop, etc.) exact native lookups (hash ↔ name), semantic search, framework docs (VORP, RSGCore, oxmysql), and community hashes/flags/enums from `rdr3_discoveries` (peds, weapons, animations, AI flags, …).
+Model Context Protocol (MCP) server for **RedM**, **RDR3**, **FiveM natives**, **VORP**, **RSGCore**, **oxmysql**, and the `rdr3_discoveries` community data (peds, weapons, animations, AI flags, props, audio banks). Gives AI coding agents (Claude Code, Cursor, Claude Desktop, VS Code Copilot, Zed, …) exact native lookups (hash ↔ name), semantic search across docs, and grep over raw data tables.
 
-Runs as HTTP transport at `https://redm-mcp.fivem.no/mcp` — no local server install needed, just add it to your client.
+Runs as a hosted HTTP-transport MCP at `https://redm-mcp.fivem.no/mcp` — no local install, no auth, just point your client at it.
+
+[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install_redm--mcp-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](vscode:mcp/install?%7B%22name%22%3A%22redm-mcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fredm-mcp.fivem.no%2Fmcp%22%7D)
+[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install_redm--mcp-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](vscode-insiders:mcp/install?%7B%22name%22%3A%22redm-mcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fredm-mcp.fivem.no%2Fmcp%22%7D)
+[![Add to Cursor](https://img.shields.io/badge/Cursor-Add_redm--mcp-000000?style=flat-square&logo=cursor&logoColor=white)](cursor://anysphere.cursor-deeplink/mcp/install?name=redm-mcp&config=eyJ1cmwiOiJodHRwczovL3JlZG0tbWNwLmZpdmVtLm5vL21jcCIsInR5cGUiOiJodHRwIn0=)
 
 > This repository contains only installation/usage docs and serves as the issue tracker. The server source code is proprietary and not distributed. The hosted endpoint is free to use.
 
@@ -37,6 +41,8 @@ The server advertises its own usage via MCP `instructions` — no skill or extra
 ## Client setup
 
 All clients connect to `https://redm-mcp.fivem.no/mcp`. No authentication required.
+
+VS Code and Cursor users: click an install badge above for one-click setup. For everything else, copy-paste the config below — also available as ready-made files in [`examples/`](examples/).
 
 ### Claude Code
 
@@ -150,6 +156,10 @@ Restart Claude Desktop.
 | `GET /ingest-status` | no | `{ current, last, ingestedAt, upToDate }` |
 | `GET /stats` | no | Usage stats (tool counters, durations, breakdowns). Metadata only — no queries or secrets stored. |
 | `GET /dashboard` | no | HTML dashboard over `/stats`. |
+
+## Example prompts
+
+See [`examples/prompts.md`](examples/prompts.md) for things to try once installed (native lookups, behavior searches, framework / inventory questions, debugging).
 
 ## Issues / feedback
 

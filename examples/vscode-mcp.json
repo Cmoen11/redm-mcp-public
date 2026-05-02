@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "redm-mcp": {
+      "type": "http",
+      "url": "https://redm-mcp.fivem.no/mcp"
+    }
+  }
+}

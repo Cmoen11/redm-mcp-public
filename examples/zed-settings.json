@@ -1,0 +1,14 @@
+{
+  "context_servers": {
+    "redm-mcp": {
+      "command": {
+        "path": "npx",
+        "args": [
+          "-y",
+          "mcp-remote",
+          "https://redm-mcp.fivem.no/mcp"
+        ]
+      }
+    }
+  }
+}
