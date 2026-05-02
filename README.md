@@ -1,46 +1,46 @@
 # redm-mcp
 
-MCP-server for RedM/RDR3-dokumentasjon. Gir AI-agenter (Claude Code, Cursor, Claude Desktop, osv.) eksakt oppslag mot natives (hash ↔ navn), semantisk søk, framework-docs (VORP, RSGCore, oxmysql), og community-hashes/flags/enums fra `rdr3_discoveries` (peds, weapons, animations, AI-flags, …).
+MCP server for RedM/RDR3 documentation. Gives AI agents (Claude Code, Cursor, Claude Desktop, etc.) exact native lookups (hash ↔ name), semantic search, framework docs (VORP, RSGCore, oxmysql), and community hashes/flags/enums from `rdr3_discoveries` (peds, weapons, animations, AI flags, …).
 
-Kjører som HTTP-transport på `https://redm-mcp.fivem.no/mcp` — ingen lokal installasjon av serveren trengs, bare legg den til i klienten din.
+Runs as HTTP transport at `https://redm-mcp.fivem.no/mcp` — no local server install needed, just add it to your client.
 
-> Dette repoet inneholder kun installasjons-/bruksdokumentasjon og fungerer som issue tracker. Selve serverkoden er proprietær og distribueres ikke. Den hostede endepunktet er gratis å bruke.
+> This repository contains only installation/usage docs and serves as the issue tracker. The server source code is proprietary and not distributed. The hosted endpoint is free to use.
 
-## Hvorfor
+## Why
 
-Når en agent leser RedM-kode støter den typisk på:
+When an agent reads RedM code it typically encounters:
 
 ```lua
 Citizen.InvokeNative(0x09C28F828EE674FA, player, 1.5, 5000)
 ```
 
-Uten oppslag gjetter agenten på parametere og semantikk. Med denne serveren:
+Without a lookup, the agent guesses at parameters and semantics. With this server:
 
 ```
 lookup_native({ hash: "0x09C28F828EE674FA" })
 → BOOST_PLAYER_HORSE_SPEED_FOR_TIME(player Player, speedBoost float, duration int)
 ```
 
-Serveren annonserer selv når den skal brukes via MCP `instructions` — ingen skill eller ekstra config trengs i klienten.
+The server advertises its own usage via MCP `instructions` — no skill or extra client config needed.
 
 ## Tools
 
-| Tool | Bruk |
-|------|------|
-| `lookup_native` | Eksakt oppslag på hash eller navn. O(1). Bruk ved `Citizen.InvokeNative(0x...)` eller `SCREAMING_SNAKE_CASE`-navn. |
-| `semantic_search` | Søk etter oppførsel/konsept ("teleport player", "spawn horse"). |
-| `grep_docs` | Regex/literal-grep i rå doc-filer. Trengs for store `rdr3_discoveries`-datatabeller (audio_banks, ingameanims, …) som bare er preview-indeksert i embeddings. |
-| `list_namespaces` | List kategorier og namespaces. |
-| `browse` | List dokument-paths under en kategori/namespace. |
-| `get_document` | Hent full markdown for en doc-path. |
+| Tool | Use |
+|------|-----|
+| `lookup_native` | Exact lookup by hash or name. O(1). Use for `Citizen.InvokeNative(0x...)` or `SCREAMING_SNAKE_CASE` names. |
+| `semantic_search` | Search by behavior/concept ("teleport player", "spawn horse"). |
+| `grep_docs` | Regex/literal grep across raw doc files. Required for the large `rdr3_discoveries` data tables (audio_banks, ingameanims, …) which are only preview-indexed in embeddings. |
+| `list_namespaces` | List categories and namespaces. |
+| `browse` | List document paths under a category/namespace. |
+| `get_document` | Fetch full markdown for a doc path. |
 
-## Tilgang
+## Access
 
-Endepunktet krever `Authorization: Bearer <token>`. Be om token ved å [opprette en issue](../../issues/new) eller kontakt eier direkte.
+The endpoint requires `Authorization: Bearer <token>`. Request a token by [opening an issue](../../issues/new) or contacting the owner directly.
 
-## Installasjon per klient
+## Client setup
 
-Alle klienter kobler til `https://redm-mcp.fivem.no/mcp` med en Bearer-token (`ACCESS_TOKEN`).
+All clients connect to `https://redm-mcp.fivem.no/mcp` with a Bearer token (`ACCESS_TOKEN`).
 
 ### Claude Code
 
@@ -49,7 +49,7 @@ claude mcp add --transport http redm-mcp https://redm-mcp.fivem.no/mcp \
   --header "Authorization: Bearer $ACCESS_TOKEN"
 ```
 
-Eller rediger `~/.claude.json` manuelt:
+Or edit `~/.claude.json` manually:
 
 ```json
 {
@@ -58,7 +58,7 @@ Eller rediger `~/.claude.json` manuelt:
       "type": "http",
       "url": "https://redm-mcp.fivem.no/mcp",
       "headers": {
-        "Authorization": "Bearer DIN_TOKEN"
+        "Authorization": "Bearer YOUR_TOKEN"
       }
     }
   }
@@ -67,7 +67,7 @@ Eller rediger `~/.claude.json` manuelt:
 
 ### Cursor
 
-Rediger `~/.cursor/mcp.json` (eller `.cursor/mcp.json` i prosjektrot):
+Edit `~/.cursor/mcp.json` (or `.cursor/mcp.json` in a project root):
 
 ```json
 {
@@ -75,18 +75,18 @@ Rediger `~/.cursor/mcp.json` (eller `.cursor/mcp.json` i prosjektrot):
     "redm-mcp": {
       "url": "https://redm-mcp.fivem.no/mcp",
       "headers": {
-        "Authorization": "Bearer DIN_TOKEN"
+        "Authorization": "Bearer YOUR_TOKEN"
       }
     }
   }
 }
 ```
 
-Start Cursor på nytt. Sjekk `Settings → MCP` for grønn status.
+Restart Cursor. Check `Settings → MCP` for green status.
 
 ### Claude Desktop
 
-Claude Desktop støtter ikke HTTP-MCP direkte — bruk `mcp-remote` som proxy. Rediger `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) eller `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+Claude Desktop doesn't support HTTP MCP directly — use `mcp-remote` as a proxy. Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
 
 ```json
 {
@@ -98,18 +98,18 @@ Claude Desktop støtter ikke HTTP-MCP direkte — bruk `mcp-remote` som proxy. R
         "mcp-remote",
         "https://redm-mcp.fivem.no/mcp",
         "--header",
-        "Authorization: Bearer DIN_TOKEN"
+        "Authorization: Bearer YOUR_TOKEN"
       ]
     }
   }
 }
 ```
 
-Start Claude Desktop på nytt.
+Restart Claude Desktop.
 
 ### VS Code (Copilot / Continue)
 
-`.vscode/mcp.json` i prosjektrot:
+`.vscode/mcp.json` in a project root:
 
 ```json
 {
@@ -118,7 +118,7 @@ Start Claude Desktop på nytt.
       "type": "http",
       "url": "https://redm-mcp.fivem.no/mcp",
       "headers": {
-        "Authorization": "Bearer DIN_TOKEN"
+        "Authorization": "Bearer YOUR_TOKEN"
       }
     }
   }
@@ -140,7 +140,7 @@ Start Claude Desktop på nytt.
           "mcp-remote",
           "https://redm-mcp.fivem.no/mcp",
           "--header",
-          "Authorization: Bearer DIN_TOKEN"
+          "Authorization: Bearer YOUR_TOKEN"
         ]
       }
     }
@@ -148,34 +148,34 @@ Start Claude Desktop på nytt.
 }
 ```
 
-### Andre klienter (generisk)
+### Other clients (generic)
 
-- HTTP-transport klienter: pek mot `https://redm-mcp.fivem.no/mcp` med `Authorization: Bearer <token>`
-- stdio-only klienter: bruk [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) som proxy
+- HTTP transport clients: point to `https://redm-mcp.fivem.no/mcp` with `Authorization: Bearer <token>`
+- stdio-only clients: use [`mcp-remote`](https://www.npmjs.com/package/mcp-remote) as a proxy
 
-## Verifisere at det funker
+## Verify it works
 
 1. `curl https://redm-mcp.fivem.no/health` → `{"ok":true}`
-2. `curl https://redm-mcp.fivem.no/ingest-status` → viser versjon og sist ingested
-3. I klient: spør agenten om å slå opp `0x09C28F828EE674FA` — skal returnere `BOOST_PLAYER_HORSE_SPEED_FOR_TIME`
+2. `curl https://redm-mcp.fivem.no/ingest-status` → shows version and last ingested timestamp
+3. In your client: ask the agent to look up `0x09C28F828EE674FA` — should return `BOOST_PLAYER_HORSE_SPEED_FOR_TIME`
 
-## Endepunkter
+## Endpoints
 
-| Path | Auth | Formål |
-|------|------|--------|
-| `POST /mcp` | Bearer | MCP-protokoll |
-| `GET /health` | nei | Liveness |
-| `GET /ingest-status` | nei | `{ current, last, ingestedAt, upToDate }` |
-| `GET /stats` | nei | Bruksstats (tool-tellere, varighet, breakdowns). Kun metadata — ingen queries eller secrets lagres. |
-| `GET /dashboard` | nei | HTML-dashboard over `/stats`. |
+| Path | Auth | Purpose |
+|------|------|---------|
+| `POST /mcp` | Bearer | MCP protocol |
+| `GET /health` | no | Liveness |
+| `GET /ingest-status` | no | `{ current, last, ingestedAt, upToDate }` |
+| `GET /stats` | no | Usage stats (tool counters, durations, breakdowns). Metadata only — no queries or secrets stored. |
+| `GET /dashboard` | no | HTML dashboard over `/stats`. |
 
 ## Issues / feedback
 
-Bug, manglende docs, feil i native-oppslag, ønsker om nye tools? [Opprett en issue](../../issues/new).
+Bug, missing docs, incorrect native lookups, requests for new tools? [Open an issue](../../issues/new).
 
-## Docs-kilder
+## Doc sources
 
-Indekserte upstreams:
+Indexed upstreams:
 
 - [iamvillain/sj-redm-mcp](https://github.com/iamvillain/sj-redm-mcp) — natives, VORP, RSGCore, oxmysql
-- [femga/rdr3_discoveries](https://github.com/femga/rdr3_discoveries) — community ped/weapon/anim/prop hashes, AI-flags, enums
+- [femga/rdr3_discoveries](https://github.com/femga/rdr3_discoveries) — community ped/weapon/anim/prop hashes, AI flags, enums
