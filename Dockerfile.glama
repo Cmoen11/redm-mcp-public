@@ -1,0 +1,9 @@
+# Proxy Dockerfile for Glama listing only.
+# This is NOT the actual redm-mcp server — the server is hosted at
+# https://redm-mcp.fivem.no/mcp. This image runs mcp-remote, which
+# forwards stdio MCP traffic from Glama's introspector to the hosted
+# endpoint, so Glama can verify the server responds without us having
+# to publish the proprietary source.
+FROM node:20-alpine
+RUN npm install -g mcp-remote@latest
+ENTRYPOINT ["mcp-remote", "https://redm-mcp.fivem.no/mcp"]
