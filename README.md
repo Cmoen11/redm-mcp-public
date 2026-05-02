@@ -1,6 +1,6 @@
 # redm-mcp — RedM / RDR3 docs MCP server
 
-Model Context Protocol (MCP) server for **RedM**, **RDR3**, **FiveM natives**, **VORP**, **RSGCore**, **oxmysql**, and the `rdr3_discoveries` community data (peds, weapons, animations, AI flags, props, audio banks). Gives AI coding agents (Claude Code, Cursor, Claude Desktop, VS Code Copilot, Zed, …) exact native lookups (hash ↔ name), semantic search across docs, and grep over raw data tables.
+Model Context Protocol (MCP) server for **RedM** / **RDR3**: native lookups (hash ↔ name), semantic search, framework docs (**VORP**, **RSGCore**, **oxmysql**), and the `rdr3_discoveries` community data (peds, weapons, animations, AI flags, props, audio banks). Gives AI coding agents (Claude Code, Cursor, Claude Desktop, VS Code Copilot, Zed, …) exact answers instead of guesses.
 
 Runs as a hosted HTTP-transport MCP at `https://redm-mcp.fivem.no/mcp` — no local install, no auth, just point your client at it.
 
